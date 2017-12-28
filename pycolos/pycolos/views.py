@@ -1,9 +1,10 @@
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.shortcuts import render
 
 
 def index(request):
-    return HttpResponse("Hello, world. PyColos greets you")
+    return render(request, "index.html")
 
 
 def newuser(request):
