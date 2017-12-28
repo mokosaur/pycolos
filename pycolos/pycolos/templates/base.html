@@ -1,8 +1,10 @@
 {% load staticfiles %}
+{% load bootstrap4 %}
 <html>
 <head>
+    {% bootstrap_css %}
+    {% bootstrap_messages %}
     <title>PyColos</title>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 </head>
 <body>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
