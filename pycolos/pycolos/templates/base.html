@@ -4,6 +4,9 @@
 <head>
     {% bootstrap_css %}
     {% bootstrap_messages %}
+    <link rel="stylesheet" href="{% static 'pycolos.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'prism.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'codeflask.css' %}" type="text/css" />
     <title>PyColos</title>
 </head>
 <body>
@@ -20,5 +23,12 @@
             </div>
         </div>
     </div>
+  <script src="{% static 'jquery-3.2.1.min.js' %}"></script>
+  <script src="{% static 'prism.js' %}"></script>
+  <script src="{% static 'codeflask.js' %}"></script>
+  <script>
+      var flask = new CodeFlask;
+      flask.run('#my-code-wrapper', { language: 'python', lineNumbers: false });
+  </script>
 </body>
 </html>

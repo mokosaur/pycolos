@@ -1,0 +1,11 @@
+.content {
+    margin-top: 10px;
+}
+
+#my-code-wrapper {
+      width:350px;
+      height:250px;
+      position:relative; /* Position must be: relative, absolute or fixed */
+      background: #272822;
+      caret-color: white;
+}
