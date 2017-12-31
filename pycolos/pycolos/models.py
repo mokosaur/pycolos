@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from markdownx.models import MarkdownxField
+
 from pycolos.pycolos.receivers import *
 
 
@@ -31,7 +33,7 @@ class Question(models.Model):
     )
     difficulty = models.CharField(max_length=100, choices=DIFFICULTY_LEVELS)
     type = models.CharField(max_length=100, choices=QUESTION_TYPES)
-    question_text = models.TextField()
+    question_text = MarkdownxField()
     tests = models.TextField(blank=True)
 
     def __str__(self):

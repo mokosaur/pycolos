@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pycolos.pycolos',
     'bootstrap4',
+    'markdownx',
 ]
 
 MIDDLEWARE = [
