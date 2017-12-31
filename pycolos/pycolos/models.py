@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from pycolos.pycolos.receivers import *
 
 
 # Create your models here.
@@ -25,13 +26,19 @@ class Question(models.Model):
     )
     difficulty = models.CharField(max_length=100, choices=DIFFICULTY_LEVELS)
     type = models.CharField(max_length=100, choices=QUESTION_TYPES)
-    question = models.TextField()
+    question_text = models.TextField()
     tests = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.question_text
 
 
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer_text = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.answer_text
 
 
 class TestSession(models.Model):
