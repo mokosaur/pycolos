@@ -18,4 +18,11 @@
         {% endfor %}
         <button type="submit">Stwórz</button>
     </form>
+
+    <h2>Załaduj plik z USOS</h2>
+    <form method="post" action="usos_users" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p><input type="file" name="file"></p>
+        <button type="submit">Stwórz</button>
+    </form>
 {% endblock %}
