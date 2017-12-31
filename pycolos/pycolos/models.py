@@ -8,7 +8,12 @@ class Test(models.Model):
     name = models.CharField(max_length=256)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    available_from = models.DateTimeField(null=True)
+    available_for_x_minutes = models.IntegerField(null=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return "Test: " + self.name
 
 
 class Question(models.Model):

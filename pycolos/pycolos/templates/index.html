@@ -4,4 +4,8 @@
     <p>Hi there!</p>
     <p>It works!</p>
     <div id="my-code-wrapper" data-language="python"></div>
+    <h2>Dostępne testy</h2>
+    {% for test in tests %}
+        <p>{{ test.name }}, rozpoczyna się {{ test.available_from }}, dostępny przez {{ test.available_for_x_minutes }} minut</p>
+    {% endfor %}
 {% endblock %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import UserForm
+from .models import Test
 from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
 import pandas as pd
@@ -9,7 +10,8 @@ import random
 
 
 def index(request):
-    return render(request, "index.html")
+    tests = Test.objects.all()
+    return render(request, "index.html", {"tests": tests})
 
 
 @staff_member_required
