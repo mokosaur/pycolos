@@ -26,7 +26,7 @@ def show_test(request, test_id):
     try:
         test_session = TestSession.objects.get(test=test, user=request.user)
     except TestSession.DoesNotExist:
-        test_session = TestSession.objects.create_session(request.user, test)
+        test_session = TestSession.objects.create_session(request.user, test, request.GET.get("order"))
     question_index = test_session.current_index
     question_count = test_session.test.question_set.count()
     if question_index >= question_count:

@@ -56,9 +56,17 @@ class Answer(models.Model):
 
 
 class TestSessionManager(models.Manager):
-    def create_session(self, user, test):
-        questions = Question.objects.filter(test=test).order_by('?')
-        questions_list = ",".join(str(q.id) for q in questions)
+    def create_session(self, user, test, order):
+        very_easy = Question.objects.filter(test=test, difficulty='VE').order_by('?')
+        easy = Question.objects.filter(test=test, difficulty='E').order_by('?')
+        medium = Question.objects.filter(test=test, difficulty='M').order_by('?')
+        hard = Question.objects.filter(test=test, difficulty='H').order_by('?')
+        very_hard = Question.objects.filter(test=test, difficulty='VH').order_by('?')
+        levels = [very_easy, easy, medium, hard, very_hard]
+        if order == "easy":
+            questions_list = ",".join(",".join(str(q.id) for q in l) for l in levels)
+        else:
+            questions_list = ",".join(",".join(str(q.id) for q in l) for l in reversed(levels))
         test_session = self.create(user=user, test=test, questions_list=questions_list)
         return test_session
 
