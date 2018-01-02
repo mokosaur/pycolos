@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p>{{ question.formatted_markdown }}</p>
+    <p>{{ question.formatted_markdown | safe }}</p>
     <form method="post">
         {% csrf_token %}
         <div id="my-code-wrapper" data-language="python" name="answer"></div>
         <button type="submit" class="btn btn-success">Następne pytanie</button>
     </form>
+    <div class="progress">
+        <div class="progress-bar bg-info" role="progressbar" style="width: {{progress.progress}}%">{{ progress.index }} z {{ progress.count }}</div>
+    </div>
 {% endblock %}

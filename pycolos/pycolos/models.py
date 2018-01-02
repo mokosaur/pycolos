@@ -3,8 +3,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from markdownx.models import MarkdownxField
-from markdownx.utils import markdownify
 
+from pycolos.pycolos.helpers import markdown_to_html
 from pycolos.pycolos.receivers import *
 
 
@@ -44,7 +44,7 @@ class Question(models.Model):
     @property
     @mark_safe
     def formatted_markdown(self):
-        return markdownify(self.question_text)
+        return markdown_to_html(self.question_text)
 
 
 class Answer(models.Model):
@@ -70,6 +70,9 @@ class TestSession(models.Model):
     questions_list = models.CharField(validators=[validate_comma_separated_integer_list], max_length=1000, default="")
     current_index = models.IntegerField(default=0)
     objects = TestSessionManager()
+
+    def __str__(self):
+        return self.user.username + " " + self.test.name
 
 
 class UserAnswer(models.Model):
