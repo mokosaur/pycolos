@@ -1,7 +1,8 @@
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import UserForm
-from .models import Test
+from .models import Test, TestSession, Question
 from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
 import pandas as pd
@@ -12,6 +13,25 @@ import random
 def index(request):
     tests = Test.objects.all()
     return render(request, "index.html", {"tests": tests})
+
+
+def show_test(request, test_id):
+    try:
+        test = Test.objects.get(id=test_id)
+    except Test.DoesNotExist:
+        return Http404("Test o numerze " + test_id + " nie istnieje")
+    try:
+        test_session = TestSession.objects.get(test=test, user=request.user)
+    except TestSession.DoesNotExist:
+        test_session = TestSession.objects.create_session(request.user, test)
+    question_index = test_session.current_index
+    if question_index >= test_session.test.question_set.count():
+        return render(request, "finish.html")
+    question_id = int(test_session.questions_list.split(",")[question_index])
+    question = Question.objects.get(id=question_id)
+    test_session.current_index += 1
+    test_session.save()
+    return render(request, 'test.html', {'question': question, 'test_id': test_id})
 
 
 @staff_member_required

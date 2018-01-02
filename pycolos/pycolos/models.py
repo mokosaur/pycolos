@@ -1,3 +1,4 @@
+from django.core.validators import validate_comma_separated_integer_list
 from django.db import models
 from django.contrib.auth.models import User
 from markdownx.models import MarkdownxField
@@ -5,7 +6,6 @@ from markdownx.models import MarkdownxField
 from pycolos.pycolos.receivers import *
 
 
-# Create your models here.
 class Test(models.Model):
     name = models.CharField(max_length=256)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -48,10 +48,21 @@ class Answer(models.Model):
         return self.answer_text
 
 
+class TestSessionManager(models.Manager):
+    def create_session(self, user, test):
+        questions = Question.objects.filter(test=test).order_by('?')
+        questions_list = ",".join(str(q.id) for q in questions)
+        test_session = self.create(user=user, test=test, questions_list=questions_list)
+        return test_session
+
+
 class TestSession(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     started_at = models.DateTimeField(auto_now_add=True)
+    questions_list = models.CharField(validators=[validate_comma_separated_integer_list], max_length=1000, default="")
+    current_index = models.IntegerField(default=0)
+    objects = TestSessionManager()
 
 
 class UserAnswer(models.Model):
