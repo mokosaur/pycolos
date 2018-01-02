@@ -12,7 +12,16 @@
     <p>{{ question.formatted_markdown | safe }}</p>
     <form method="post">
         {% csrf_token %}
+        {% if question.type == 'O' %}
         <div id="my-code-wrapper" data-language="python" name="answer"></div>
+        {% else %}
+        {% for a in question.answer_set.all %}
+            <div class="form-check">
+                <input class="form-check-input" name="answer" type="checkbox" id="answer{{ a.id }}" value="{{ a.answer_text }}">
+                <label class="form-check-label" name="answer" for="answer{{ a.id }}">{{ a.answer_text }}</label>
+            </div>
+        {% endfor %}
+        {% endif %}
         <button type="submit" class="btn btn-success">Następne pytanie</button>
     </form>
     <div class="progress">

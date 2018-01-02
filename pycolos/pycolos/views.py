@@ -34,7 +34,11 @@ def show_test(request, test_id):
     question_id = int(test_session.questions_list.split(",")[question_index])
     question = Question.objects.get(id=question_id)
     if request.method == 'POST':
-        answer = request.POST.get('answer')
+        if question.type == 'O':
+            answer = request.POST.get('answer')
+        else:
+            answer = request.POST.getlist('answer')
+            print(answer)
         UserAnswer.objects.create(session=test_session, question=question, answer_text=answer)
         test_session.current_index += 1
         test_session.save()
