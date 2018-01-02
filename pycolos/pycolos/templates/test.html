@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load shuffle %}
 
 {% block content %}
     <div class="row">
@@ -21,7 +22,7 @@
         {% if question.type == 'O' %}
         <div id="my-code-wrapper" data-language="python" name="answer"></div>
         {% else %}
-        {% for a in question.answer_set.all %}
+        {% for a in question.answer_set.all|shuffle %}
             <div class="form-check">
                 <input class="form-check-input" name="answer" type="checkbox" id="answer{{ a.id }}" value="{{ a.answer_text }}">
                 <label class="form-check-label" name="answer" for="answer{{ a.id }}">{{ a.answer_text }}</label>

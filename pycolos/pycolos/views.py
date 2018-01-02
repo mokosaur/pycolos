@@ -65,6 +65,26 @@ def newuser(request):
 
 
 @staff_member_required
+def import_export(request):
+    if request.method == 'POST':
+        pass
+    tests = Test.objects.all()
+    return render(request, 'test_export.html', {'tests': tests})
+
+
+@staff_member_required
+def export_test(request):
+    if request.method == 'POST':
+        test_id = request.POST.get('test_id')
+        if test_id != '-':
+            test = Test.objects.get(id=int(test_id))
+            print(test.name)
+        else:
+            pass
+    return redirect('import_export')
+
+
+@staff_member_required
 def create_users_with_csv(request):
     if request.method == 'POST':
         f = request.FILES['file']

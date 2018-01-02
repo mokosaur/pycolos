@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-5 card text-center">
+            <div class="card-body">
+            <h4 class="card-title">Załaduj JSON z testem</h4>
+            <br>
+            <br>
+            <br>
+            <form method="post" action="usos_users" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-md-10 offset-md-1">
+                <label class="custom-file">
+                <input type="file" name="file" class="custom-file-input">
+                <span class="custom-file-control"></span>
+                </label>
+                </div>
+                </br>
+                </br>
+                <button type="submit" class="btn btn-success">Prześlij</button>
+            </form>
+            </div>
+        </div>
+        <div class="col-md-5 offset-md-2 card text-center">
+            <div class="card-body">
+            <h4 class="card-title">Eksportuj test do JSON</h4>
+            <br>
+            <br>
+            <br>
+            <form method="post" action="export_test">
+                {% csrf_token %}
+                <div class="col-md-10 offset-md-1">
+                    <select class="form-control" name="test_id">
+                        <option>-</option>
+                        {% for test in tests %}
+                            <option value="{{ test.id }}">{{ test.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                </br>
+                </br>
+                <button type="submit" class="btn btn-success">Pobierz</button>
+            </form>
+        </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'pycolos.pycolos',
     'bootstrap4',
     'markdownx',
+    'pycolos.pycolos.templatetags.shuffle',
 ]
 
 MIDDLEWARE = [
