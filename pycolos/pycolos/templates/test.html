@@ -2,6 +2,9 @@
 
 {% block content %}
     <p>{{ question.formatted_markdown }}</p>
-    <div id="my-code-wrapper" data-language="python"></div>
-    <a href="/show_test/{{test_id}}" class="btn btn-success">Następne pytanie</a>
+    <form method="post">
+        {% csrf_token %}
+        <div id="my-code-wrapper" data-language="python" name="answer"></div>
+        <button type="submit" class="btn btn-success">Następne pytanie</button>
+    </form>
 {% endblock %}

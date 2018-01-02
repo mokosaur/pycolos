@@ -2,7 +2,7 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import UserForm
-from .models import Test, TestSession, Question
+from .models import Test, TestSession, Question, UserAnswer
 from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
 import pandas as pd
@@ -29,8 +29,11 @@ def show_test(request, test_id):
         return render(request, "finish.html")
     question_id = int(test_session.questions_list.split(",")[question_index])
     question = Question.objects.get(id=question_id)
-    test_session.current_index += 1
-    test_session.save()
+    if request.method == 'POST':
+        answer = request.POST.get('answer')
+        UserAnswer.objects.create(session=test_session, question=question, answer_text=answer)
+        test_session.current_index += 1
+        test_session.save()
     return render(request, 'test.html', {'question': question, 'test_id': test_id})
 
 
