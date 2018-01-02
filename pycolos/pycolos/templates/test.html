@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block content %}
+    <div class="row">
+    <div class="col-md-4 offset-md-4">
+        <div class="card">
+            <div class="card-body" id="countdown"></div>
+        </div>
+    </div>
+    </div>
     <p>{{ question.formatted_markdown | safe }}</p>
     <form method="post">
         {% csrf_token %}
@@ -9,6 +17,15 @@
     </form>
     <div class="progress">
         <div class="progress-bar bg-info" role="progressbar" style="width: {{progress.progress}}%">{{ progress.index }} z {{ progress.count }}</div>
-        <p>{{ test_end|date:"Y/m/d H:i:s" }}</p>
+        <p></p>
     </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'countdown.js' %}"></script>
+    <script type="text/javascript">
+      $('#countdown').countdown('{{ test_end|date:"Y/m/d H:i:s" }}', function(event) {
+        $(this).html(event.strftime('Do końca czasu pozostało %H:%M:%S'));
+      });
+    </script>
 {% endblock %}
