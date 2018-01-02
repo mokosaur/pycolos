@@ -41,6 +41,8 @@
       flask.run('#my-code-wrapper', { language: 'python', lineNumbers: false });
       $('.CodeFlask__textarea').attr('name', 'answer');
   </script>
+    {% block js %}
+    {% endblock %}
   {% bootstrap_javascript %}
 </body>
 </html>
