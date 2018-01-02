@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p>Hi there!</p>
-    <p>It works!</p>
-    <div id="my-code-wrapper" data-language="python"></div>
     {% if user.is_authenticated %}
         <h2>Kolejność pytań</h2>
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -25,7 +22,7 @@
             </thead>
             <tbody>
             {% for test in tests %}
-                <tr class="clickable-row" data-href="/test/{{ test.id }}">
+                <tr class="clickable-row" data-href="/show_test/{{ test.id }}">
                     <td>{{ test.name }}</td>
                     {% if test.available_from %}
                         <td>{{ test.available_from }}</td>
