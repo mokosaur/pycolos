@@ -37,6 +37,7 @@ def show_test(request, test_id):
         UserAnswer.objects.create(session=test_session, question=question, answer_text=answer)
         test_session.current_index += 1
         test_session.save()
+        return redirect('/show_test/%s/' % test_id)
     progress = ProgressBar(question_index, question_count)
     return render(request, 'test.html', {'question': question, 'test_id': test_id, 'progress': progress})
 
