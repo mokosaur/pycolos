@@ -10,6 +10,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 import pandas as pd
 import string
 import random
+import datetime
 
 
 def index(request):
@@ -39,7 +40,9 @@ def show_test(request, test_id):
         test_session.save()
         return redirect('/show_test/%s/' % test_id)
     progress = ProgressBar(question_index, question_count)
-    return render(request, 'test.html', {'question': question, 'test_id': test_id, 'progress': progress})
+    test_end = test.available_from + datetime.timedelta(minutes=test.available_for_x_minutes)
+    return render(request, 'test.html', {'question': question, 'test_id': test_id, 'progress': progress,
+                                         'test_end': test_end})
 
 
 @staff_member_required

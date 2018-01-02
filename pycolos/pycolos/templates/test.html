@@ -9,5 +9,6 @@
     </form>
     <div class="progress">
         <div class="progress-bar bg-info" role="progressbar" style="width: {{progress.progress}}%">{{ progress.index }} z {{ progress.count }}</div>
+        <p>{{ test_end|date:"Y/m/d H:i:s" }}</p>
     </div>
 {% endblock %}
