@@ -1,28 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Stwórz użytkownika</h2>
-    <form method="post">
-        {% csrf_token %}
-        {% for field in form %}
-            <p>
-                {{ field.label_tag }}<br>
-                {{ field }}
-{#                {% if field.help_text %}#}
-{#                    <small style="color: grey">{{ field.help_text }}</small>#}
-{#                {% endif %}#}
-                {% for error in field.errors %}
-                    <p style="color: red">{{ error }}</p>
-                {% endfor %}
-            </p>
-        {% endfor %}
-        <button type="submit">Stwórz</button>
-    </form>
+    <div class="row text-center" id="user_forms">
+    <div class="col-md-5 card">
+      <div class="card-body">
+          <h4 class="card-title">Stwórz użytkownika</h4>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    <br>
+                    {{ field }}
+                    {% for error in field.errors %}
+                        <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Stwórz</button>
+        </form>
+    </div>
+    </div>
+    <div class="col-md-5 offset-md-2 card">
+        <div class="card-body">
+        <h4 class="card-title">Załaduj plik z danymi z USOS</h4>
+        <br>
+        <br>
+        <br>
+        <form method="post" action="usos_users" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-md-10 offset-md-1">
+            <label class="custom-file">
+            <input type="file" name="file" class="custom-file-input">
+            <span class="custom-file-control"></span>
+            </label>
+            </div>
+            </br>
+            </br>
+            <button type="submit" class="btn btn-success">Prześlij</button>
+        </form>
+    </div>
+    </div>
+    </div>
 
-    <h2>Załaduj plik z USOS</h2>
-    <form method="post" action="usos_users" enctype="multipart/form-data">
-        {% csrf_token %}
-        <p><input type="file" name="file"></p>
-        <button type="submit">Stwórz</button>
-    </form>
 {% endblock %}
