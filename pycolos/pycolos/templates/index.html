@@ -4,8 +4,51 @@
     <p>Hi there!</p>
     <p>It works!</p>
     <div id="my-code-wrapper" data-language="python"></div>
-    <h2>Dostępne testy</h2>
-    {% for test in tests %}
-        <p>{{ test.name }}, rozpoczyna się {{ test.available_from }}, dostępny przez {{ test.available_for_x_minutes }} minut</p>
-    {% endfor %}
+    {% if user.is_authenticated %}
+        <h2>Kolejność pytań</h2>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary active">
+                <input type="radio" name="order" id="option1" value="easy" autocomplete="off" checked> Od najłatwiejszego
+            </label>
+            <label class="btn btn-secondary">
+                <input type="radio" name="order" id="option2" value="hard" autocomplete="off"> Od najtrudniejszego
+            </label>
+        </div>
+        <h2>Dostępne testy</h2>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Nazwa testu</th>
+                    <th scope="col">Początek</th>
+                    <th scope="col">Czas trwania</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for test in tests %}
+                <tr class="clickable-row" data-href="/test/{{ test.id }}">
+                    <td>{{ test.name }}</td>
+                    {% if test.available_from %}
+                        <td>{{ test.available_from }}</td>
+                    {% else %}
+                        <td>-</td>
+                    {% endif %}
+                    {% if test.available_for_x_minutes %}
+                        <td>{{ test.available_for_x_minutes }} min.</td>
+                    {% else %}
+                        <td>-</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <script>
+    $(document).ready(function($) {
+        $(".clickable-row").click(function() {
+            var order = $('input[name=order]:checked').val();
+            window.location = $(this).data("href") + "?order=" + order;
+        });
+    });
+    </script>
 {% endblock %}
