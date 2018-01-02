@@ -41,6 +41,7 @@
       var flask = new CodeFlask;
       flask.run('#my-code-wrapper', { language: 'python', lineNumbers: false });
       $('.CodeFlask__textarea').attr('name', 'answer');
+      $('.CodeFlask__textarea').focus();
   </script>
     {% block js %}
     {% endblock %}

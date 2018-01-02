@@ -12,6 +12,7 @@ import pandas as pd
 import string
 import random
 from django.utils import timezone
+from django.core import serializers
 
 
 def index(request):
@@ -84,6 +85,7 @@ def export_test(request):
         test_id = request.POST.get('test_id')
         if test_id != '-':
             test = Test.objects.get(id=int(test_id))
+            serializers
             print(test.name)
         else:
             pass
