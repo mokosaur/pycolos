@@ -3,16 +3,20 @@
 {% load shuffle %}
 
 {% block content %}
+    <div class="row card-down-little">
+    <div class="col-md-12 card">
+    <br>
     <div class="row">
-    <div class="col-md-3 align-self-center">
-        <h3>Pytanie {{ progress.index }}</h3>
+    <div class="col-md-4 align-self-center">
+        <h3 class="inline">Pytanie {{ progress.index }}  &nbsp;&nbsp;</h3>   
+        <button class="align-self-center btn btn-sm {{ question.difficulty | css_class }}" disabled>{{ question.difficulty | difficulty }}</button>
     </div>
     <div class="col-md-5 align-self-center">
         <div class="progress">
             <div class="progress-bar bg-info" role="progressbar" style="width: {{progress.progress}}%">{{ progress.index }} z {{ progress.count }}</div>
         </div>
     </div>
-    <div class="col-md-4 align-self-center">
+    <div class="col-md-3 align-self-center">
         <div id="countdown"></div>
     </div>
     </div>
@@ -23,21 +27,27 @@
         <div id="my-code-wrapper" data-language="python" name="answer"></div>
         {% else %}
         {% for a in question.answer_set.all|shuffle %}
+            <div class="col-md-8 offset-md-1">
             <div class="form-check">
                 <input class="form-check-input" name="answer" type="checkbox" id="answer{{ a.id }}" value="{{ a.answer_text }}">
                 <label class="form-check-label" name="answer" for="answer{{ a.id }}">{{ a.answer_text }}</label>
             </div>
+            </div>
         {% endfor %}
         {% endif %}
+         <br>
         <button type="submit" class="btn btn-success">Następne pytanie</button>
     </form>
+    <br>
+    </div>
+    </div>
 {% endblock %}
 
 {% block js %}
     <script src="{% static 'countdown.js' %}"></script>
     <script type="text/javascript">
       $('#countdown').countdown('{{ test_end|date:"Y/m/d H:i:s" }}', function(event) {
-        $(this).html(event.strftime('Do końca czasu pozostało %H:%M:%S'));
+        $(this).html(event.strftime('Czas do końca: %H:%M:%S'));
       });
     </script>
 {% endblock %}

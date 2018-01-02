@@ -1,5 +1,6 @@
 .content {
     margin-top: 10px;
+
 }
 
 #my-code-wrapper {
@@ -10,6 +11,18 @@
       caret-color: white;
 }
 
-#user_forms {
+.card-down {
       margin-top: 10%;
+}
+
+.card-down-little {
+      margin-top: 5%;
+}
+
+body {
+      background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+}
+
+.inline {
+      display: inline !important;
 }

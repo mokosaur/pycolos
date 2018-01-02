@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="row text-center" id="user_forms">
-    <div class="col-md-5 card">
+    <div class="row text-center card-down">
+    <div class="col-md-5 card align-self-center card-block ">
       <div class="card-body">
           <h4 class="card-title">Stwórz użytkownika</h4>
         <form method="post">
@@ -17,11 +17,11 @@
                     {% endfor %}
                 </div>
             {% endfor %}
-            <button type="submit" class="btn btn-primary">Stwórz</button>
+            <button type="submit" class="btn btn-info">Stwórz</button>
         </form>
     </div>
     </div>
-    <div class="col-md-5 offset-md-2 card">
+    <div class="col-md-5 offset-md-2 card align-self-center ">
         <div class="card-body">
         <h4 class="card-title">Załaduj plik z danymi z USOS</h4>
         <br>
@@ -37,7 +37,7 @@
             </div>
             </br>
             </br>
-            <button type="submit" class="btn btn-success">Prześlij</button>
+            <button type="submit" class="btn btn-info">Prześlij</button>
         </form>
     </div>
     </div>
