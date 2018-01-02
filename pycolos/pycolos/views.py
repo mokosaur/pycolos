@@ -1,16 +1,17 @@
+import datetime
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from pycolos.pycolos.helpers import ProgressBar
 from .forms import UserForm
-from .models import Test, TestSession, Question, UserAnswer
+from .models import Test, TestSession, Question, UserAnswer, messages
 from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
 import pandas as pd
 import string
 import random
-import datetime
+from django.utils import timezone
 
 
 def index(request):
@@ -26,10 +27,16 @@ def show_test(request, test_id):
     try:
         test_session = TestSession.objects.get(test=test, user=request.user)
     except TestSession.DoesNotExist:
+        if test.available_from > timezone.now():
+            messages.add_message(request, messages.WARNING, 'Ten test nie jest jeszce dostępny')
+            return redirect('index')
         test_session = TestSession.objects.create_session(request.user, test, request.GET.get("order"))
     question_index = test_session.current_index
     question_count = test_session.test.question_set.count()
-    if question_index >= question_count:
+    test_end = test.available_from + datetime.timedelta(minutes=test.available_for_x_minutes)
+    if question_index >= question_count or timezone.now() > test_end:
+        test_session.current_index = question_count
+        test_session.save()
         return render(request, "finish.html")
     question_id = int(test_session.questions_list.split(",")[question_index])
     question = Question.objects.get(id=question_id)
@@ -44,7 +51,6 @@ def show_test(request, test_id):
         test_session.save()
         return redirect('/show_test/%s/' % test_id)
     progress = ProgressBar(question_index, question_count)
-    test_end = test.available_from + datetime.timedelta(minutes=test.available_for_x_minutes)
     return render(request, 'test.html', {'question': question, 'test_id': test_id, 'progress': progress,
                                          'test_end': test_end})
 
