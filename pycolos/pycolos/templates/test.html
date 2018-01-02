@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p>{{ question.question_text }}</p>
+    <p>{{ question.formatted_markdown }}</p>
     <div id="my-code-wrapper" data-language="python"></div>
     <a href="/show_test/{{test_id}}" class="btn btn-success">Następne pytanie</a>
 {% endblock %}

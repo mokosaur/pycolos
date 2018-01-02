@@ -1,7 +1,9 @@
 from django.core.validators import validate_comma_separated_integer_list
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.safestring import mark_safe
 from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 
 from pycolos.pycolos.receivers import *
 
@@ -38,6 +40,11 @@ class Question(models.Model):
 
     def __str__(self):
         return self.question_text
+
+    @property
+    @mark_safe
+    def formatted_markdown(self):
+        return markdownify(self.question_text)
 
 
 class Answer(models.Model):
