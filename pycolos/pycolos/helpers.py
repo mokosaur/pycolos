@@ -4,6 +4,8 @@ from django.template.defaulttags import register
 from django.utils.safestring import mark_safe
 from markdownx.utils import markdownify
 
+from pycolos.settings import GITHUB_USERNAME, GITHUB_TOKEN
+
 
 class ProgressBar:
     def __init__(self, index, count):
@@ -15,7 +17,7 @@ class ProgressBar:
 @mark_safe
 def markdown_to_html(markdown):
     url = 'https://api.github.com/markdown'
-    r = requests.post(url, json={"text": markdown})
+    r = requests.post(url, json={"text": markdown}, auth=(GITHUB_USERNAME, GITHUB_TOKEN))
     if r.status_code == 200:
         return r.content
     else:

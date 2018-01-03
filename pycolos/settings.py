@@ -132,3 +132,6 @@ LOGIN_REDIRECT_URL = 'index'
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
 )
+
+GITHUB_USERNAME = os.environ.get('GITHUB_USERNAME', '')
+GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN', '')
