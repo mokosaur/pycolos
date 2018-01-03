@@ -9,6 +9,7 @@ An examination platform implemented in python django. You can define closed mult
 - **django-bootstrap4**
 - **django-markdownx**
 - **pandas** 
+- **requests**
 
 ### How to use it
 
