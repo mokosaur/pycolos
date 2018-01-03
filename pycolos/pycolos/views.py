@@ -112,14 +112,16 @@ def import_test(request):
 @staff_member_required
 def download_answers(request, test_id):
     """Endpoint that allows a superuser to download all collected answers for a given test"""
-    answers = UserAnswer.objects.filter(question__test__id=test_id).order_by('session__user__username', 'question')
-    df = pd.DataFrame(columns=['user', 'question', 'answer'])
-    for a in answers:
-        df = df.append({
-            'user': a.session.user.username,
-            'question': a.question.question_text,
-            'answer': a.answer_text
-        }, ignore_index=True)
+    questions = Question.objects.filter(test_id=test_id).order_by('id')
+    question_ids = [q.id for q in questions]
+    df = pd.DataFrame(columns=['user'] + question_ids)
+    users = User.objects.all()
+    for u in users:
+        answers = {'user': u.username}
+        for i in question_ids:
+            user_answer = UserAnswer.objects.filter(session__user_id=u.id, question_id=i).last()
+            answers[i] = user_answer.answer_text if user_answer else ''
+        df = df.append(answers, ignore_index=True)
     response = HttpResponse(df, content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="answers.csv"'
     df.to_csv(response, index=False, sep=';')
