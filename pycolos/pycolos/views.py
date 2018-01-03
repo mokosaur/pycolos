@@ -1,4 +1,6 @@
 import datetime
+import re
+
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -48,7 +50,12 @@ def show_test(request, test_id):
             answer = request.POST.get('answer')
         else:
             answer = request.POST.getlist('answer')
-            print(answer)
+        if question.forbiddenword_set.count() > 0:
+            for word in question.forbiddenword_set.all():
+                r_string = r"\b" + word.word + r"\b"
+                if re.search(r_string, answer):
+                    messages.add_message(request, messages.ERROR, 'Użyłeś niedozwolonego słowa')
+                    return redirect('/show_test/%s/' % test_id)
         UserAnswer.objects.create(session=test_session, question=question, answer_text=answer)
         test_session.current_index += 1
         test_session.save()

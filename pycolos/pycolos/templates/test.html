@@ -24,6 +24,14 @@
     <form method="post">
         {% csrf_token %}
         {% if question.type == 'O' %}
+            {% if question.forbiddenword_set.count > 0 %}
+                <b>Zabronione słowa:</b>
+                <ul class="list-inline">
+                    {% for word in question.forbiddenword_set.all %}
+                        <li>{{ word }},</li>
+                    {%  endfor %}
+                </ul>
+            {%  endif %}
         <div id="my-code-wrapper" data-language="python" name="answer"></div>
         {% else %}
         {% for a in question.answer_set.all|shuffle %}

@@ -43,6 +43,7 @@ class Question(models.Model):
     type = models.CharField(max_length=100, choices=QUESTION_TYPES)
     question_text = MarkdownxField()
     tests = models.TextField(blank=True)
+    additional_tests = models.TextField(blank=True, default="")
 
     def __str__(self):
         return self.question_text
@@ -112,3 +113,16 @@ class UserAnswer(models.Model):
     class Meta:
         verbose_name = _('UserAnswer')
         verbose_name_plural = _('UserAnswers')
+
+
+class ForbiddenWord(models.Model):
+    """Open questions can have certain words forbidden, so they cannot be used in answers"""
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    word = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.word
+
+    class Meta:
+        verbose_name = _('ForbiddenWord')
+        verbose_name_plural = _('ForbiddenWords')

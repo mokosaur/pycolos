@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from markdownx.admin import MarkdownxModelAdmin
 
-from pycolos.pycolos.models import Test, Question, Answer, TestSession, UserAnswer
+from pycolos.pycolos.models import Test, Question, Answer, TestSession, UserAnswer, ForbiddenWord
 
 admin.site.register(Test)
 admin.site.register(Answer)
@@ -16,6 +16,11 @@ class AnswerInline(admin.StackedInline):
     extra = 1
 
 
+class ForbiddenWordInline(admin.StackedInline):
+    model = ForbiddenWord
+    extra = 1
+
+
 @admin.register(Question)
 class QuestionAdmin(MarkdownxModelAdmin):
-    inlines = [AnswerInline, ]
+    inlines = [AnswerInline, ForbiddenWordInline]

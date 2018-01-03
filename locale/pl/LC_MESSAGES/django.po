@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-03 11:26+0100\n"
+"POT-Creation-Date: 2018-01-03 18:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,46 +20,54 @@ msgstr ""
 "%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
 "%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#: pycolos/pycolos/forms.py:7
+#: pycolos/pycolos/forms.py:8
 msgid "Password"
 msgstr "Hasło"
 
-#: pycolos/pycolos/models.py:23
+#: pycolos/pycolos/models.py:24
 msgid "Test"
 msgstr "kolokwium"
 
-#: pycolos/pycolos/models.py:24
+#: pycolos/pycolos/models.py:25
 msgid "Tests"
 msgstr "kolokwia"
 
-#: pycolos/pycolos/models.py:49
+#: pycolos/pycolos/models.py:51
 msgid "Question"
 msgstr "pytanie"
 
-#: pycolos/pycolos/models.py:50
+#: pycolos/pycolos/models.py:52
 msgid "Questions"
 msgstr "pytania"
 
-#: pycolos/pycolos/models.py:66
+#: pycolos/pycolos/models.py:69
 msgid "Answer"
 msgstr "odpowiedź"
 
-#: pycolos/pycolos/models.py:67
+#: pycolos/pycolos/models.py:70
 msgid "Answers"
 msgstr "odpowiedzi"
 
-#: pycolos/pycolos/models.py:98
+#: pycolos/pycolos/models.py:102
 msgid "TestSession"
 msgstr "sesja testowa"
 
-#: pycolos/pycolos/models.py:99
+#: pycolos/pycolos/models.py:103
 msgid "TestSessions"
 msgstr "sesje testowe"
 
-#: pycolos/pycolos/models.py:108
+#: pycolos/pycolos/models.py:113
 msgid "UserAnswer"
 msgstr "odpowiedź użytkownika"
 
-#: pycolos/pycolos/models.py:109
+#: pycolos/pycolos/models.py:114
 msgid "UserAnswers"
 msgstr "odpowiedzi użytkowników"
+
+#: pycolos/pycolos/models.py:126
+msgid "ForbiddenWord"
+msgstr "zabronione słowo"
+
+#: pycolos/pycolos/models.py:127
+msgid "ForbiddenWords"
+msgstr "zabronione słowa"
