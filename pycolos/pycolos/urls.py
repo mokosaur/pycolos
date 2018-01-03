@@ -10,6 +10,8 @@ urlpatterns = [
     url(r'^create_user$', views.newuser, name='create_user'),
     url(r'^import_export$', views.import_export, name='import_export'),
     url(r'^export_test$', views.export_test, name='export_test'),
+    url(r'^import_test$', views.import_test, name='import_test'),
+    url(r'^download_answers/(?P<test_id>\d+)/', views.download_answers, name='download_answers'),
     url(r'^usos_users$', views.create_users_with_csv, name='usos_users'),
     url(r'^show_test/(?P<test_id>\d+)/', views.show_test, name='show_test'),
 ]

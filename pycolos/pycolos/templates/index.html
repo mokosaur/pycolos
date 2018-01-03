@@ -27,6 +27,9 @@
                             <th scope="col">Nazwa testu</th>
                             <th scope="col">Początek</th>
                             <th scope="col">Czas trwania</th>
+                            {% if user.is_authenticated %}
+                            <th scope="col">Odpowiedzi</th>
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -42,6 +45,14 @@
                                 <td>{{ test.available_for_x_minutes }} min.</td>
                             {% else %}
                                 <td>-</td>
+                            {% endif %}
+
+                            {% if user.is_authenticated %}
+                                <th scope="col">
+                                    <a href="/download_answers/{{ test.id }}" style="text-decoration: none;">
+                                        <i class="icon-download"></i>
+                                    </a>
+                                </th>
                             {% endif %}
                         </tr>
                     {% endfor %}

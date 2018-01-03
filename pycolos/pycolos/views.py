@@ -5,7 +5,7 @@ from django.http import HttpResponse
 
 from pycolos.pycolos.helpers import ProgressBar
 from .forms import UserForm
-from .models import Test, TestSession, Question, UserAnswer, messages
+from .models import Test, TestSession, Question, Answer, UserAnswer, messages
 from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
 import pandas as pd
@@ -85,11 +85,37 @@ def export_test(request):
         test_id = request.POST.get('test_id')
         if test_id != '-':
             test = Test.objects.get(id=int(test_id))
-            serializers
-            print(test.name)
+            all_objects = [test] + list(Question.objects.filter(test=test)) + \
+                          list(Answer.objects.filter(question__test=test))
+            models = serializers.serialize('json', all_objects)
+            response = HttpResponse(models, content_type='application/json')
+            response['Content-Disposition'] = 'attachment; filename="test.json"'
+            return response
         else:
             pass
     return redirect('import_export')
+
+
+@staff_member_required
+def import_test(request):
+    if request.method == 'POST':
+        pass  # to be done
+
+
+@staff_member_required
+def download_answers(request, test_id):
+    answers = UserAnswer.objects.filter(question__test__id=test_id).order_by('session__user__username', 'question')
+    df = pd.DataFrame(columns=['user', 'question', 'answer'])
+    for a in answers:
+        df = df.append({
+            'user': a.session.user.username,
+            'question': a.question.question_text,
+            'answer': a.answer_text
+        }, ignore_index=True)
+    response = HttpResponse(df, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="answers.csv"'
+    df.to_csv(response, index=False, sep=';')
+    return response
 
 
 @staff_member_required
