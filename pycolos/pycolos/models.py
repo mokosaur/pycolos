@@ -3,7 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from markdownx.models import MarkdownxField
-
+from django.utils.translation import ugettext_lazy as _
 from pycolos.pycolos.helpers import markdown_to_html
 from pycolos.pycolos.receivers import *
 
@@ -19,6 +19,10 @@ class Test(models.Model):
 
     def __str__(self):
         return "Test: " + self.name
+
+    class Meta:
+        verbose_name = _('Test')
+        verbose_name_plural = _('Tests')
 
 
 class Question(models.Model):
@@ -43,6 +47,10 @@ class Question(models.Model):
     def __str__(self):
         return self.question_text
 
+    class Meta:
+        verbose_name = _('Question')
+        verbose_name_plural = _('Questions')
+
     @property
     @mark_safe
     def formatted_markdown(self):
@@ -56,6 +64,10 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.answer_text
+
+    class Meta:
+        verbose_name = _('Answer')
+        verbose_name_plural = _('Answers')
 
 
 class TestSessionManager(models.Manager):
@@ -86,9 +98,17 @@ class TestSession(models.Model):
     def __str__(self):
         return self.user.username + " " + self.test.name
 
+    class Meta:
+        verbose_name = _('TestSession')
+        verbose_name_plural = _('TestSessions')
+
 
 class UserAnswer(models.Model):
     """Answer that was given by a student during his examination."""
     session = models.ForeignKey(TestSession, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer_text = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name = _('UserAnswer')
+        verbose_name_plural = _('UserAnswers')
