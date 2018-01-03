@@ -68,6 +68,7 @@ def newuser(request):
             raw_password = form.cleaned_data.get('password')
             user.set_password(raw_password)
             user.save()
+            messages.add_message(request, messages.SUCCESS, 'Użytkownik został stworzony.')
             return redirect('create_user')
     else:
         form = UserForm()
