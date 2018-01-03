@@ -9,6 +9,7 @@ from pycolos.pycolos.receivers import *
 
 
 class Test(models.Model):
+    """Test containing questions defined to be solved by students."""
     name = models.CharField(max_length=256)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -21,6 +22,7 @@ class Test(models.Model):
 
 
 class Question(models.Model):
+    """Question which belongs to a test."""
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     DIFFICULTY_LEVELS = (
         ('VE', 'Very Easy'),
@@ -48,6 +50,7 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
+    """Possible answer that can be defined below a closed test question"""
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer_text = models.TextField(blank=True)
 
@@ -72,6 +75,7 @@ class TestSessionManager(models.Manager):
 
 
 class TestSession(models.Model):
+    """Session of the examination. Every time any user starts an examination, the test session is created for him"""
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     started_at = models.DateTimeField(auto_now_add=True)
@@ -84,6 +88,7 @@ class TestSession(models.Model):
 
 
 class UserAnswer(models.Model):
+    """Answer that was given by a student during his examination."""
     session = models.ForeignKey(TestSession, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer_text = models.TextField(blank=True)

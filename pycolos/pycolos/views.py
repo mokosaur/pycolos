@@ -16,11 +16,13 @@ from django.core import serializers
 
 
 def index(request):
+    """The index page which displays all available tests for a logged-in user"""
     tests = Test.objects.all()
     return render(request, "index.html", {"tests": tests})
 
 
 def show_test(request, test_id):
+    """Test view which serves the current question in a test session"""
     try:
         test = Test.objects.get(id=test_id)
     except Test.DoesNotExist:
@@ -58,6 +60,7 @@ def show_test(request, test_id):
 
 @staff_member_required
 def newuser(request):
+    """View that allows a superuser to create student accounts"""
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
@@ -73,6 +76,7 @@ def newuser(request):
 
 @staff_member_required
 def import_export(request):
+    """View that allows a superuser to import and export tests"""
     if request.method == 'POST':
         pass
     tests = Test.objects.all()
@@ -81,6 +85,7 @@ def import_export(request):
 
 @staff_member_required
 def export_test(request):
+    """Endpoint that serves a JSON file with a serialized test model"""
     if request.method == 'POST':
         test_id = request.POST.get('test_id')
         if test_id != '-':
@@ -98,12 +103,14 @@ def export_test(request):
 
 @staff_member_required
 def import_test(request):
+    """Endpoint that allows to import a serialized test"""
     if request.method == 'POST':
         pass  # to be done
 
 
 @staff_member_required
 def download_answers(request, test_id):
+    """Endpoint that allows a superuser to download all collected answers for a given test"""
     answers = UserAnswer.objects.filter(question__test__id=test_id).order_by('session__user__username', 'question')
     df = pd.DataFrame(columns=['user', 'question', 'answer'])
     for a in answers:
@@ -120,6 +127,7 @@ def download_answers(request, test_id):
 
 @staff_member_required
 def create_users_with_csv(request):
+    """Endpoint that creates student accounts given USOS CSV file, and generates a CSV file with user passwords"""
     if request.method == 'POST':
         f = request.FILES['file']
         with open('users.csv', 'wb+') as destination:
