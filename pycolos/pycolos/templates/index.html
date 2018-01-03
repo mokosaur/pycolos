@@ -29,6 +29,7 @@
                             <th scope="col">Czas trwania</th>
                             {% if user.is_staff %}
                             <th scope="col">Odpowiedzi</th>
+                            <th scope="col">Pytania</th>
                             {% endif %}
                         </tr>
                     </thead>
@@ -50,6 +51,11 @@
                             {% if user.is_staff %}
                                 <th scope="col">
                                     <a href="/download_answers/{{ test.id }}" style="text-decoration: none;">
+                                        <i class="icon-download"></i>
+                                    </a>
+                                </th>
+                                <th scope="col">
+                                    <a href="/download_questions/{{ test.id }}" style="text-decoration: none;">
                                         <i class="icon-download"></i>
                                     </a>
                                 </th>

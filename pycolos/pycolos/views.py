@@ -129,6 +129,23 @@ def download_answers(request, test_id):
 
 
 @staff_member_required
+def download_questions(request, test_id):
+    """Endpoint that allows a superuser to download all collected answers for a given test"""
+    questions = Question.objects.filter(test_id=test_id).order_by('id')
+    df = pd.DataFrame(columns=['question id', 'question', 'tests'])
+    for q in questions:
+        df = df.append({
+            'question id': q.id,
+            'question': q.question_text,
+            'tests': q.tests
+        }, ignore_index=True)
+    response = HttpResponse(df, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="questions.csv"'
+    df.to_csv(response, index=False, sep=';')
+    return response
+
+
+@staff_member_required
 def create_users_with_csv(request):
     """Endpoint that creates student accounts given USOS CSV file, and generates a CSV file with user passwords"""
     if request.method == 'POST':
