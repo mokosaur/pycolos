@@ -20,6 +20,9 @@
   <div class="collapse navbar-collapse" id="navbarToggler">
     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
       <li class="nav-item">
+          {% if request.user.is_staff %}
+              <a class="btn btn-outline-info" role="button" href="/create_user">Stwórz użytkownika</a>
+          {% endif %}
           {% if request.user.is_authenticated %}
                <a class="btn btn-outline-info" role="button" href="/logout">Wyloguj</a>
           {% else %}

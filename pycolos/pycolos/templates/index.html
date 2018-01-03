@@ -27,7 +27,7 @@
                             <th scope="col">Nazwa testu</th>
                             <th scope="col">Początek</th>
                             <th scope="col">Czas trwania</th>
-                            {% if user.is_authenticated %}
+                            {% if user.is_staff %}
                             <th scope="col">Odpowiedzi</th>
                             {% endif %}
                         </tr>
@@ -47,7 +47,7 @@
                                 <td>-</td>
                             {% endif %}
 
-                            {% if user.is_authenticated %}
+                            {% if user.is_staff %}
                                 <th scope="col">
                                     <a href="/download_answers/{{ test.id }}" style="text-decoration: none;">
                                         <i class="icon-download"></i>
