@@ -139,12 +139,13 @@ def download_answers(request, test_id):
 def download_questions(request, test_id):
     """Endpoint that allows a superuser to download all collected answers for a given test"""
     questions = Question.objects.filter(test_id=test_id).order_by('id')
-    df = pd.DataFrame(columns=['question id', 'question', 'tests'])
+    df = pd.DataFrame(columns=['question id', 'question', 'tests', 'additional tests'])
     for q in questions:
         df = df.append({
             'question id': q.id,
             'question': q.question_text,
-            'tests': q.tests
+            'tests': q.tests,
+            'additional tests': q.additional_tests
         }, ignore_index=True)
     response = HttpResponse(df, content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="questions.csv"'

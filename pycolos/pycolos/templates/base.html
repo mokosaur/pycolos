@@ -44,8 +44,10 @@
   <script>
       var flask = new CodeFlask;
       flask.run('#my-code-wrapper', { language: 'python', lineNumbers: false });
-      $('.CodeFlask__textarea').attr('name', 'answer');
-      $('.CodeFlask__textarea').focus();
+      $('#my-code-wrapper .CodeFlask__textarea').attr('name', 'answer');
+      $('#my-code-wrapper .CodeFlask__textarea').focus();
+      flask.run('#tests-wrapper', { language: 'python', lineNumbers: false });
+      $('#tests-wrapper .CodeFlask__textarea').attr('readonly', 'true');
   </script>
     {% block js %}
     {% endblock %}

@@ -24,6 +24,10 @@
     <form method="post">
         {% csrf_token %}
         {% if question.type == 'O' %}
+            {% if question.tests %}
+                <b>Testy do kodu:</b>
+                <div id="tests-wrapper" data-language="python">{{ question.tests }}</div>
+            {% endif %}
             {% if question.forbiddenword_set.count > 0 %}
                 <b>Zabronione słowa:</b>
                 <ul class="list-inline">
@@ -32,6 +36,7 @@
                     {%  endfor %}
                 </ul>
             {%  endif %}
+            <b>Odpowiedź:</b>
         <div id="my-code-wrapper" data-language="python" name="answer"></div>
         {% else %}
         {% for a in question.answer_set.all|shuffle %}
