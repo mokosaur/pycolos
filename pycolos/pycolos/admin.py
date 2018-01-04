@@ -7,7 +7,6 @@ from pycolos.pycolos.models import Test, Question, Answer, TestSession, UserAnsw
 
 admin.site.register(Test)
 admin.site.register(Answer)
-admin.site.register(TestSession)
 admin.site.register(UserAnswer)
 
 
@@ -24,3 +23,11 @@ class ForbiddenWordInline(admin.StackedInline):
 @admin.register(Question)
 class QuestionAdmin(MarkdownxModelAdmin):
     inlines = [AnswerInline, ForbiddenWordInline]
+
+
+@admin.register(TestSession)
+class TestSessionAdmin(admin.ModelAdmin):
+    list_display = ('user', 'test', 'is_finished')
+
+    def is_finished(self, obj):
+        return obj.current_index >= len(obj.questions_list.split(','))
