@@ -114,6 +114,9 @@ class UserAnswer(models.Model):
         verbose_name = _('UserAnswer')
         verbose_name_plural = _('UserAnswers')
 
+    def __str__(self):
+        return self.session.user.username + " " + self.question.question_text
+
 
 class ForbiddenWord(models.Model):
     """Open questions can have certain words forbidden, so they cannot be used in answers"""
