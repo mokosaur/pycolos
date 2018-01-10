@@ -50,13 +50,13 @@ def show_test(request, test_id):
             answer = request.POST.get('answer')
         else:
             answer = request.POST.getlist('answer')
+        UserAnswer.objects.create(session=test_session, question=question, answer_text=answer)
         if question.forbiddenword_set.count() > 0:
             for word in question.forbiddenword_set.all():
                 r_string = r"\b" + word.word + r"\b"
                 if re.search(r_string, answer):
                     messages.add_message(request, messages.ERROR, 'Użyłeś niedozwolonego słowa')
                     return redirect('/show_test/%s/' % test_id)
-        UserAnswer.objects.create(session=test_session, question=question, answer_text=answer)
         test_session.current_index += 1
         test_session.save()
         return redirect('/show_test/%s/' % test_id)
