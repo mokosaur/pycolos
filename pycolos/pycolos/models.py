@@ -1,6 +1,6 @@
 from django.core.validators import validate_comma_separated_integer_list
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.utils.safestring import mark_safe
 from markdownx.models import MarkdownxField
 from django.utils.translation import ugettext_lazy as _
@@ -16,6 +16,7 @@ class Test(models.Model):
     available_from = models.DateTimeField(null=True)
     available_for_x_minutes = models.IntegerField(null=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    groups = models.ManyToManyField(Group)
 
     def __str__(self):
         return "Test: " + self.name

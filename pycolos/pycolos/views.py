@@ -19,7 +19,10 @@ from django.core import serializers
 
 def index(request):
     """The index page which displays all available tests for a logged-in user"""
-    tests = Test.objects.all()
+    if request.user.is_staff:
+        tests = Test.objects.all()
+    else:
+        tests = Test.objects.filter(groups__test__groups__in=request.user.groups.all()).distinct().all()
     return render(request, "index.html", {"tests": tests})
 
 
@@ -29,6 +32,9 @@ def show_test(request, test_id):
         test = Test.objects.get(id=test_id)
     except Test.DoesNotExist:
         return Http404("Test o numerze " + test_id + " nie istnieje")
+    if (test.groups.all() & request.user.groups.all()).count() == 0 and not request.user.is_staff:
+        messages.add_message(request, messages.ERROR, 'Ten test nie jest dostępny dla Twojej grupy')
+        return redirect('index')
     try:
         test_session = TestSession.objects.get(test=test, user=request.user)
     except TestSession.DoesNotExist:
