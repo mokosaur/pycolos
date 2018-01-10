@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from pycolos.pycolos.helpers import ProgressBar
 from .forms import UserForm
 from .models import Test, TestSession, Question, Answer, UserAnswer, messages
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.admin.views.decorators import staff_member_required
 import pandas as pd
 import string
@@ -33,7 +33,7 @@ def show_test(request, test_id):
         test_session = TestSession.objects.get(test=test, user=request.user)
     except TestSession.DoesNotExist:
         if test.available_from > timezone.now():
-            messages.add_message(request, messages.WARNING, 'Ten test nie jest jeszce dostępny')
+            messages.add_message(request, messages.WARNING, 'Ten test nie jest jeszcze dostępny')
             return redirect('index')
         test_session = TestSession.objects.create_session(request.user, test, request.GET.get("order"))
     question_index = test_session.current_index
@@ -75,6 +75,9 @@ def newuser(request):
             raw_password = form.cleaned_data.get('password')
             user.set_password(raw_password)
             user.save()
+            groups = form.cleaned_data.get('group')
+            for g in groups:
+                g.user_set.add(user)
             messages.add_message(request, messages.SUCCESS, 'Użytkownik został stworzony.')
             return redirect('create_user')
     else:
