@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from pycolos.pycolos.helpers import ProgressBar
-from .forms import UserForm
+from .forms import UserForm, UsosForm
 from .models import Test, TestSession, Question, Answer, UserAnswer, messages
 from django.contrib.auth.models import User, Group
 from django.contrib.admin.views.decorators import staff_member_required
@@ -82,7 +82,8 @@ def newuser(request):
             return redirect('create_user')
     else:
         form = UserForm()
-    return render(request, 'create_user.html', {'form': form})
+    form_usos = UsosForm()
+    return render(request, 'create_user.html', {'form': form, 'form_usos': form_usos})
 
 
 @staff_member_required
@@ -169,10 +170,18 @@ def create_users_with_csv(request):
         res = df[["indeks", "imie", "nazwisko"]]
         res['login'] = res.apply(lambda x: "z" + str(int(x.indeks)), axis=1)
         res['password'] = res.apply(lambda _: ''.join(random.choice(alphabet) for _ in range(8)), axis=1)
-        print(res.head())
 
+        form = UsosForm(request.POST, request.FILES)
+        if form.is_valid():
+            groups = form.cleaned_data.get('group')
+        else:
+            groups = []
+        print(groups)
         for index, row in res.iterrows():
-            User.objects.create_user(row.login, password=row.password)
+            user = User.objects.create_user(row.login, password=row.password)
+            for g in groups:
+                g.user_set.add(user)
+
 
         response = HttpResponse(res, content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="generated.csv"'

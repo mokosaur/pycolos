@@ -11,3 +11,9 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'password']
+
+
+class UsosForm(forms.Form):
+    """Form that can be used to create a user without the requirement of a password confirmation"""
+    file = forms.FileField(label=_('File'))
+    group = forms.ModelMultipleChoiceField(queryset=Group.objects.all(), label=_('Group'))

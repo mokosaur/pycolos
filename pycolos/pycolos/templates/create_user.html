@@ -27,16 +27,30 @@
         <br>
         <br>
         <br>
-        <form method="post" action="usos_users" enctype="multipart/form-data">
+{#        <form method="post" action="usos_users" enctype="multipart/form-data">#}
+{#            {% csrf_token %}#}
+{#            <div class="col-md-10 offset-md-1">#}
+{#            <label class="custom-file">#}
+{#            <input type="file" name="file" class="custom-file-input">#}
+{#            <span class="custom-file-control"></span>#}
+{#            </label>#}
+{#            </div>#}
+{#            </br>#}
+{#            </br>#}
+{#            <button type="submit" class="btn btn-info">Prześlij</button>#}
+{#        </form>#}
+            <form method="post" action="usos_users" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="col-md-10 offset-md-1">
-            <label class="custom-file">
-            <input type="file" name="file" class="custom-file-input">
-            <span class="custom-file-control"></span>
-            </label>
-            </div>
-            </br>
-            </br>
+            {% for field in form_usos %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    <br>
+                    {{ field }}
+                    {% for error in field.errors %}
+                        <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
             <button type="submit" class="btn btn-info">Prześlij</button>
         </form>
     </div>
